@@ -7,7 +7,7 @@
     const PORT = window.location.port;
     const SDK_DOMAIN = 'sdk.medkumo.loc';
     const API_DOMAIN = 'api.medkumo.loc';
-    const DOCTORLIST_URI = PROTOCOL + '//' + API_DOMAIN + ':' + PORT + '/index.php';
+    const DOCTORLIST_URI = PROTOCOL + '//' + API_DOMAIN + ':' + PORT + '/index.php?name=list_doctor';
     const BTN_HTML_CONTENT = '<a href="#" id="BaP_BtnBookAnAppointment" class="Medkumo_Btn_Style">Book An Appointment<a>';
     const FORM_HTML_DOCTORS = '<div class="BaP_Doctors">' +
         '<a href="#" id="BaP_Doctors_BtnClose">X</a>' +
