@@ -3,22 +3,24 @@
     if (window.Medkumo) {
         return;
     }
-    const DOCTORLIST_URI = 'http://api.medkumo.loc:85/listdoctor.json';
-    const btnHTMLConntent = "<a href='#' id='BaP_BtnBookAnAppointment' class='Medkumo_Btn_Style'>Book An Appointment<a>";
-    const formListDoctor = '<div class="BaP_Doctors">' +
+    const PROTOCOL = window.location.protocol;
+    const PORT = window.location.port;
+    const SDK_DOMAIN = 'sdk.medkumo.loc';
+    const API_DOMAIN = 'api.medkumo.loc';
+    const DOCTORLIST_URI = PROTOCOL + '//' + API_DOMAIN + ':' + PORT + '/index.php';
+    const BTN_HTML_CONTENT = '<a href="#" id="BaP_BtnBookAnAppointment" class="Medkumo_Btn_Style">Book An Appointment<a>';
+    const FORM_HTML_DOCTORS = '<div class="BaP_Doctors">' +
         '<a href="#" id="BaP_Doctors_BtnClose">X</a>' +
         '</div>';
+
     Medkumo.initialize = function(hospital_key) {
-        var protocol, port;
-        protocol = window.location.protocol;
-        port = window.location.port;
-        loadStylesheet(protocol + '//sdk.medkumo.loc:' + port + '/medkumo.css');
-        loadScript(protocol + '//sdk.medkumo.loc:' + port + '/lib/jquery-medkumo.js', showWidget);
+        loadStylesheet(PROTOCOL + '//' + SDK_DOMAIN + ':' + PORT + '/medkumo.css');
+        loadScript(PROTOCOL + '//' + SDK_DOMAIN + ':' + PORT + '/lib/jquery-medkumo.js', showWidget);
     };
 
     var showWidget = function showWidget() {
         var Medkumo_PnlBookAnAppointment = document.createElement('div');
-        Medkumo_PnlBookAnAppointment.innerHTML = btnHTMLConntent;
+        Medkumo_PnlBookAnAppointment.innerHTML = BTN_HTML_CONTENT;
         Medkumo_PnlBookAnAppointment.setAttribute("id", "Medkumo_PnlBookAnAppointment");
         document.body.appendChild(Medkumo_PnlBookAnAppointment);
         Medkumo.jQuery(document).on("click", "#BaP_BtnBookAnAppointment", function() {
@@ -27,9 +29,9 @@
     }
 
     function renderDoctorsForm() {
-        Medkumo.jQuery("#Medkumo_PnlBookAnAppointment").html(formListDoctor);
+        Medkumo.jQuery("#Medkumo_PnlBookAnAppointment").html(FORM_HTML_DOCTORS);
         Medkumo.jQuery.getJSON(DOCTORLIST_URI, function(dr) {
-            dr.doctors.map(function(item, index) {                
+            dr.map(function(item, index) {
                 var doc = '<div class="BaP_Doctor_Item">' +
                     '<input type="hidden" value="' + item.doctor_key + '" class="doctor_key"/>' +
                     '<input type="hidden" value="' + item.hopital_key + '" class="hopital_key"/>' +
