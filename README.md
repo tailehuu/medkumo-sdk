@@ -10,6 +10,7 @@ You must insert the source code below at the bottom of the body tag to render th
 	})();
 	window.Medkumo_ready=function(){
 		Medkumo.initial('hospital_key');
+		console.log("Nghia");
 	};	
 </script>
 ```
