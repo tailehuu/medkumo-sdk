@@ -8,41 +8,61 @@
     const SDK_DOMAIN = 'sdk.medkumo.loc';
     const API_DOMAIN = 'api.medkumo.loc';
     const DOCTORLIST_URI = PROTOCOL + '//' + API_DOMAIN + ':' + PORT + '/index.php?name=list_doctor';
-    const BTN_HTML_CONTENT = '<a href="#" id="BaP_BtnBookAnAppointment" class="Medkumo_Btn_Style">Book An Appointment<a>';
-    const FORM_HTML_DOCTORS = '<div class="BaP_Doctors">' +
+    const FORM_HTML_DOCTORS = '<ul class="BaP_Doctors">' +
         '<a href="#" id="BaP_Doctors_BtnClose">X</a>' +
-        '</div>';
+        '</ul>';
 
     Medkumo.initialize = function(hospital_key) {
         loadStylesheet(PROTOCOL + '//' + SDK_DOMAIN + ':' + PORT + '/medkumo.css');
-        loadScript(PROTOCOL + '//' + SDK_DOMAIN + ':' + PORT + '/lib/jquery-medkumo.js', showWidget);
+        loadScript(PROTOCOL + '//' + SDK_DOMAIN + ':' + PORT + '/lib/jquery-medkumo.js', initializeWidget.bind(hospital_key));
     };
 
-    var showWidget = function showWidget() {
+    var initializeWidget = function initializeWidget() {
         var Medkumo_PnlBookAnAppointment = document.createElement('div');
-        Medkumo_PnlBookAnAppointment.innerHTML = BTN_HTML_CONTENT;
         Medkumo_PnlBookAnAppointment.setAttribute("id", "Medkumo_PnlBookAnAppointment");
         document.body.appendChild(Medkumo_PnlBookAnAppointment);
-        Medkumo.jQuery(document).on("click", "#BaP_BtnBookAnAppointment", function() {
-            renderDoctorsForm();
+        getListOfDoctor(this.toString());
+    }
+
+    function checkHospitalKey(hospital_key) {
+        return true;
+    }
+
+    function getListOfDoctor(hospital_key) {
+        if (checkHospitalKey(hospital_key)) {
+            Medkumo.jQuery("#Medkumo_PnlBookAnAppointment").html(FORM_HTML_DOCTORS);
+            Medkumo.jQuery.getJSON(DOCTORLIST_URI, function(doctors) {
+                renderListOfDoctor(doctors)
+            });
+        }
+    }
+
+    function renderListOfDoctor(doctors) {
+        doctors.map(function(item, index) {
+            var doc = '<li class="BaP_Doctor_Item">' +
+                '<img width="100px" src="http://0.soompi.io/wp-content/uploads/2016/05/27215011/YG-.jpg">' +
+                '<p class="BaP_Doctor_Item_Name">' + item.doctor_name + '</p>' +
+                '<a href="#" json-data='+encodeURIComponent(JSON.stringify(item))+'  class="BaP_Doctor_Item_BtnBook btn_Style">Book An Appointment</a>' +
+                '</li>';
+            Medkumo.jQuery('.BaP_Doctors').append(doc);
+        })
+        Medkumo.jQuery(document).on("click", ".BaP_Doctor_Item_BtnBook", function() {
+          var doctor_name='Dr Sahesh';
+          var doctor=JSON.parse(decodeURIComponent(Medkumo.jQuery(this).attr('json-data')));
+          renderBookAnAppointment(doctor);
         });
     }
 
-    function renderDoctorsForm() {
-        Medkumo.jQuery("#Medkumo_PnlBookAnAppointment").html(FORM_HTML_DOCTORS);
-        Medkumo.jQuery.getJSON(DOCTORLIST_URI, function(dr) {
-            dr.map(function(item, index) {
-                var doc = '<div class="BaP_Doctor_Item">' +
-                    '<input type="hidden" value="' + item.doctor_key + '" class="doctor_key"/>' +
-                    '<input type="hidden" value="' + item.hopital_key + '" class="hopital_key"/>' +
-                    '<img src="http://0.soompi.io/wp-content/uploads/2016/05/27215011/YG-.jpg">' +
-                    '<p class="BaP_Doctor_Item_Name">' + item.doctor_name + '</p>' +
-                    '<a href="#"  class="BaP_Doctor_Item_BtnBook btn_Style">Book An Appointment</a>' +
-                    '</div>';
-                Medkumo.jQuery('.BaP_Doctors').append(doc);
-            })
-        });
+    function renderBookAnAppointment({doctor_name,doctor_key}) {
+      console.log(doctor_name);
+      console.log(doctor_key);
     }
+
+    function postAnAppointment(data) {}
+
+    function renderSuccess(data) {}
+
+    function renderError(data) {}
 
     function loadScript(src, callback) {
         var script, isReady;
