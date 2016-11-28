@@ -2,17 +2,17 @@ You must insert the source code below at the bottom of the body tag to render th
 
 ```html
 <script>
-    (function() {
-        var script, entry;
-        script = document.createElement('script');
-        script.async = true;
-        script.src = window.location.protocol + '//sdk.medkumo.loc:' + window.location.port + '/medkumo.js';
-        entry = document.getElementsByTagName('script')[0];
-        entry.parentNode.insertBefore(script, entry);
-    })();
-    window.Medkumo_ready = function() {
-        Medkumo.initialize('hospital_key');
-    };
+  (function() {
+    var script, entry;
+    script = document.createElement('script');
+    script.async = true;
+    script.src =  '//sdk.medkumo.loc:' + window.location.port + '/medkumo.js';
+    entry = document.getElementsByTagName('script')[0];
+    entry.parentNode.insertBefore(script, entry);
+  })();
+  window.Medkumo_ready = function() {
+    Medkumo.init('<your hospital key>');
+  };
 </script>
 ```
 
