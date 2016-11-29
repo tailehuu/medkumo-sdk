@@ -116,21 +116,21 @@
         bookAnAppointmentEvents();
     }
 
-    function renderSuccess(ele, data) {
+    function renderSuccess(element, data) {
         console.log('executing renderSuccess...');
         console.log(data);
         if (!ele) {
             ele = '.medkumo-sdk-body';
         }
-        Medkumo.jQuery(ele).addClass('medkumo-sdk-success');
-        Medkumo.jQuery(ele).html(data);
+        Medkumo.jQuery(element).addClass('medkumo-sdk-success');
+        Medkumo.jQuery(element).html(data);
     }
 
-    function renderError(ele, data) {
+    function renderError(element, data) {
         console.log('executing renderError...');
         console.log(data);
-        if (!ele) {
-            ele = '.medkumo-sdk-body';
+        if (!element) {
+            element = '.medkumo-sdk-body';
         }
         Medkumo.jQuery(ele).addClass('medkumo-sdk-error');
         Medkumo.jQuery(ele).html(data);
