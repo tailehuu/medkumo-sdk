@@ -14,6 +14,7 @@
 
     const API_BASE_URL = 'api.medkumo.loc';
     const API_LIST_OF_DOCTOR = '//' + API_BASE_URL + ':' + PORT + '/index.php?name=list_doctor';
+    const API_BOOK_AN_APPOINTMENT = '//' + API_BASE_URL + ':' + PORT + '/index.php?name=book_appointment';
 
     Medkumo.init = function(key) {
         console.log('executing init...');
@@ -51,12 +52,12 @@
 
         var doc = '';
         doctors.map(function(doctor, index) {
-            doc += '<div class="form_list_item">';
-            doc += '<img src=' + doctor.avatar + ' width="15%;">';
-            doc += '<br>'
-            doc += '<label>' + doctor.doctor_name + '</label>';
-            doc += '<br>';
-            doc += '<button data-doctor-key="' + doctor.doctor_key + '"  data-doctor-name="' + doctor.doctor_name + '"  data-doctor-avatar="' + doctor.avatar + '" class="medkumo-sdk-book-an-appointment btn_Style">Book An Appointment</button>';
+            doc += '<div class="medkumo-sdk-item">';
+            doc += ' <img src=' + doctor.avatar + ' width="15%;">';
+            doc += ' <br>'
+            doc += ' <label>' + doctor.doctor_name + '</label>';
+            doc += ' <br>';
+            doc += ' <button data-doctor-key="' + doctor.doctor_key + '"  data-doctor-name="' + doctor.doctor_name + '"  data-doctor-avatar="' + doctor.avatar + '" class="medkumo-sdk-book-an-appointment-button">Book An Appointment</button>';
             doc += '</div>';
         })
 
@@ -74,37 +75,46 @@
 
         var tblForm = '';
         tblForm += '<span class="medkumo-sdk-message"></span>';
-        tblForm += '<div id="medkumo-sdk-book-an-appointment-form" class="BaP_Form_Book_Appointment">';
-        tblForm += '<div class="BaP_Form_Book_Appointment_Left">';
-        tblForm += '<div class="BaP_Form_Book_Appointment_Left_Row">';
-        tblForm += '<p>Name:</p>';
-        tblForm += '<input name="patientName" id="BaP_Form_Book_Appointment_Left_Name" type="text" placeholder="Patient Name"/>';
-        tblForm += '</div>';
-        tblForm += '<div class="BaP_Form_Book_Appointment_Left_Row">';
-        tblForm += '<p>Age:</p>';
-        tblForm += '<input name="patientAge" id="BaP_Form_Book_Appointment_Left_Age" type="text" placeholder="Patient Age"/>';
-        tblForm += '</div>';
-        tblForm += '<div class="BaP_Form_Book_Appointment_Left_Row">';
-        tblForm += '<p>Mobile:</p>';
-        tblForm += '<input name="patientMobile" id="BaP_Form_Book_Appointment_Left_Mobile" type="text" placeholder="Mobile"/>';
-        tblForm += '</div>';
-        tblForm += '<div class="BaP_Form_Book_Appointment_Left_Row">';
-        tblForm += '<p>Email:</p>';
-        tblForm += '<input name="patientMail" id="BaP_Form_Book_Appointment_Left_Email" type="text" placeholder="Email"/>';
-        tblForm += '</div>';
-        tblForm += '<div class="BaP_Form_Book_Appointment_Left_Row">';
-        tblForm += '<p class="appoinment">Appointment Date & Time:</p>';
-        tblForm += '<input name="appointmentDateAndTime" id="BaP_Form_Book_Appointment_Bottom_DateTime" type="text" placeholder="Datetime"/>';
-        tblForm += '</div>';
-        tblForm += '<div class="BaP_Form_Book_Appointment_Left_Row">';
-        tblForm += '<button id="medkumo-sdk-btn-book" json-data="' + encodeURIComponent(JSON.stringify(doctor)) + '" class="btn_Style">Book</button>';
-        tblForm += '<button id="medkumo-sdk-btn-back" class="btn_Style">Back</button>';
-        tblForm += '</div>';
-        tblForm += '</div>';
-        tblForm += '<div class="BaP_Form_Book_Appointment_Right">';
-        tblForm += '<img class="imageChange" src=' + doctor.doctor_avatar + ' width="5%;"/>';
+
+        tblForm += '<div class="medkumo-sdk-user-detail">';
+        tblForm += '<img src="' + doctor.doctor_avatar + '" width="15%;" />';
         tblForm += '<br/>';
-        tblForm += '<span>' + doctor.doctor_name + '</span>';
+        tblForm += '<span class="">' + doctor.doctor_name + '</span>';
+        tblForm += '</div>';
+        tblForm += '<div id="medkumo-sdk-book-an-appointment-form" class="medkumo-sdk-book-an-appointment">';
+        tblForm += '<div class="medkumo-sdk-form-row">';
+        tblForm += '<label>';
+        tblForm += '<span>Name: </span>';
+        tblForm += '<input name="patientName" type="text" placeholder="Patient Name">';
+        tblForm += '</label>';
+        tblForm += '</div>';
+        tblForm += '<div class="medkumo-sdk-form-row">';
+        tblForm += '<label>';
+        tblForm += '<span>Age: </span>';
+        tblForm += '<input name="patientAge" class="medkumo-sdk-form-row-age-input" type="text" placeholder="Patient Age">';
+        tblForm += '</label>';
+        tblForm += '</div>';
+        tblForm += '<div class="medkumo-sdk-form-row">';
+        tblForm += '<label>';
+        tblForm += '<span class="medkumo-sdk-form-row-mobile-span">Mobile: </span>';
+        tblForm += '<input name="patientMobile" type="text" placeholder="Mobile">';
+        tblForm += '</label>';
+        tblForm += '</div>';
+        tblForm += '<div class="medkumo-sdk-form-row">';
+        tblForm += '<label>';
+        tblForm += '<span>Email: </span>';
+        tblForm += '<input name="patientMail" class="medkumo-sdk-form-row-email-input" type="text" placeholder="Email">';
+        tblForm += '</label>';
+        tblForm += '</div>';
+        tblForm += '<div class="medkumo-sdk-form-row">';
+        tblForm += '<label>';
+        tblForm += '<span>Appointment Date & Time: </span>';
+        tblForm += '<input name="appointmentDateAndTime" type="text" placeholder="Datetime">';
+        tblForm += '</label>';
+        tblForm += '</div>';
+        tblForm += '<div class="medkumo-sdk-form-row">';
+        tblForm += '<button type="submit" id="medkumo-sdk-form-row-book-button">Book</button>';
+        tblForm += '<button type="submit" id="medkumo-sdk-form-row-back-button">Back</button>';
         tblForm += '</div>';
         tblForm += '</div>';
         tblForm += '<div class="medkumo-sdk-clear"></div>';
@@ -154,29 +164,57 @@
     }
 
     function bookAnAppointmentEvents() {
-        Medkumo.jQuery(document).on("click", "#medkumo-sdk-btn-book", function() {
-            var patientName = Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input[name="patientName"]').val();
-            var patientAge = Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input[name="patientAge"]').val();
-            var patientMobile = Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input[name="patientMobile"]').val();
-            var patientMail = Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input[name="patientMail"]').val();
-            var appointmentDateAndTime = Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input[name="appointmentDateAndTime"]').val();
-            var doctor = JSON.parse(decodeURIComponent(Medkumo.jQuery(this).attr('json-data')));
-            console.log('patientName:', patientName);
-            console.log('patientAge:', patientAge);
-            console.log('patientMail:', patientMail);
-            console.log('patientMobile:', patientMobile);
-            console.log('appointmentDateAndTime:', appointmentDateAndTime);
-            console.log('doctor:', doctor);
-            renderSuccess('.medkumo-sdk-message', 'You book success with Dr Virah!');
+        Medkumo.jQuery(document).on("click", "#medkumo-sdk-form-row-book-button", function() {
+            var patientName = Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input[name="patientName"]').val(),
+                patientAge = Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input[name="patientAge"]').val(),
+                patientMobile = Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input[name="patientMobile"]').val(),
+                patientMail = Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input[name="patientMail"]').val(),
+                appointmentDateAndTime = Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input[name="appointmentDateAndTime"]').val();
+
+            var doctor_key = Medkumo.jQuery(this).data('doctor-key'),
+                doctor_name = Medkumo.jQuery(this).data('doctor-name'),
+                doctor_avatar = Medkumo.jQuery(this).data('doctor-avatar');
+
+            var jsonData = {
+                "hospital_access_key": hospitalKey,
+                "doctor_access_key": doctor_key,
+                "detail": {
+                    "patient_name": patientName,
+                    "patient_age": patientAge,
+                    "mobile_number": patientMobile,
+                    "email_id": patientMail,
+                    "appointment_date": appointmentDateAndTime
+                }
+            };
+            Medkumo.jQuery.ajax({
+                type: 'POST',
+                url: API_BOOK_AN_APPOINTMENT,
+                data: JSON.stringify(jsonData),
+                success: function(data) {
+                    console.log('data: ', data);
+                    if (data && data.code === 1) {
+                        renderSuccess('.medkumo-sdk-message', data.message);
+                    } else {
+                        renderError('.medkumo-sdk-message', data.message);
+                    }
+
+                },
+                error: function(data) {
+                    console.log('data: ', data);
+                    renderError('.medkumo-sdk-message', data);
+                },
+                contentType: "application/json",
+                dataType: 'json'
+            });
         });
 
-        Medkumo.jQuery(document).on("click", "#medkumo-sdk-btn-back", function() {
+        Medkumo.jQuery(document).on("click", "#medkumo-sdk-form-row-back-button", function() {
             getListOfDoctor();
         });
     }
 
     function listOfDoctorEvents() {
-        Medkumo.jQuery(document).on("click", ".medkumo-sdk-book-an-appointment", function() {
+        Medkumo.jQuery(document).on("click", ".medkumo-sdk-book-an-appointment-button", function() {
             var doctor_key = Medkumo.jQuery(this).data('doctor-key'),
                 doctor_name = Medkumo.jQuery(this).data('doctor-name'),
                 doctor_avatar = Medkumo.jQuery(this).data('doctor-avatar');
