@@ -55,9 +55,9 @@
             doc += '<div class="medkumo-sdk-item">';
             doc += ' <img src=' + doctor.avatar + ' width="15%;">';
             doc += ' <br>'
-            doc += ' <label>' + doctor.doctor_name + '</label>';
+            doc += ' <label>' + doctor.name + '</label>';
             doc += ' <br>';
-            doc += ' <button data-doctor-key="' + doctor.doctor_key + '"  data-doctor-name="' + doctor.doctor_name + '"  data-doctor-avatar="' + doctor.avatar + '" class="medkumo-sdk-book-an-appointment-button">Book An Appointment</button>';
+            doc += ' <button data-doctor-key="' + doctor.doctor_key + '"  data-doctor-name="' + doctor.name + '"  data-doctor-avatar="' + doctor.avatar + '" class="medkumo-sdk-book-an-appointment-button">Book An Appointment</button>';
             doc += '</div>';
         })
 
@@ -79,7 +79,7 @@
         tblForm += '<div class="medkumo-sdk-user-detail">';
         tblForm += '<img src="' + doctor.doctor_avatar + '" width="15%;" />';
         tblForm += '<br/>';
-        tblForm += '<span class="">' + doctor.doctor_name + '</span>';
+        tblForm += '<span class="">' + doctor.name + '</span>';
         tblForm += '</div>';
         tblForm += '<div id="medkumo-sdk-book-an-appointment-form" class="medkumo-sdk-book-an-appointment">';
         tblForm += '<div class="medkumo-sdk-form-row">';
@@ -221,7 +221,7 @@
 
             renderBookAnAppointment({
                 "doctor_key": doctor_key,
-                "doctor_name": doctor_name,
+                "name": doctor_name,
                 "doctor_avatar": doctor_avatar
             });
         });
