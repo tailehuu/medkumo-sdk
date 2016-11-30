@@ -3,7 +3,8 @@
  *
  */
 (function(window, undefined) {
-    var Medkumo = {}, hospitalKey = '';
+    var Medkumo = {},
+        hospitalKey = '';
 
     if (window.Medkumo) {
         return;
@@ -35,7 +36,7 @@
     function checkHospitalKey() {
         console.log('executing checkHospitalKey...');
         console.log(hospitalKey);
-        return true;
+        return false;
     }
 
     function getListOfDoctor() {
@@ -45,6 +46,8 @@
             Medkumo.jQuery.getJSON(API_LIST_OF_DOCTOR, function(doctors) {
                 renderListOfDoctor(doctors)
             });
+        } else {
+            renderError('Hospital Key ' + hospitalKey + ' is not exist !');
         }
     }
 
@@ -74,6 +77,30 @@
         console.log('executing renderBookAnAppointment...');
         console.log(doctor.doctor_name);
         console.log(doctor.doctor_key);
+        var tblForm = '';
+        tblForm += '<table>';
+        tblForm += '<tr>';
+        tblForm += '<td>Patient Name</td>';
+        tblForm += '<td><input type="text" name="patientName" value="' + doctor.doctor_name + '"/> </td>';
+        tblForm += '</tr>';
+        tblForm += '<tr>';
+        tblForm += '<td>Patient Age</td>';
+        tblForm += '<td><input type="text" name="patientAge"/> </td>'
+        tblForm += '</tr>';
+        tblForm += '<tr>';
+        tblForm += '<td>Patient Mobile</td>';
+        tblForm += '<td><input type="text" name="patientMobile"/> </td>';
+        tblForm += '</tr>';
+        tblForm += '<tr>';
+        tblForm += '<td>Patient Mail</td>';
+        tblForm += '<td><input type="text" name="patientMail"/> </td>';
+        tblForm += '</tr>';
+        tblForm += '<tr>';
+        tblForm += '<td>Appointment Date & Time</td>';
+        tblForm += '<td><input type="text" name="appointmentDateAndTime"/> </td>';
+        tblForm += '</tr>';
+        tblForm += '</table>';
+        Medkumo.jQuery("#medkumo-sdk-container").html(tblForm);
     }
 
     function postAnAppointment(data) {
