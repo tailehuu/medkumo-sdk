@@ -1,8 +1,241 @@
 #medkumo-sdk-container {
-    font-size: 12px;
     position: fixed;
     bottom: 0px;
     right: 0px;
-    border: 1px solid gray;
-    padding: 10px;
+    border: 1px solid #6caee0;
 }
+
+.medkumo-sdk-clear {
+    clear: both;
+}
+
+.medkumo-sdk-success {
+    color: green;
+}
+
+.medkumo-sdk-error {
+    color: red;
+}
+
+.medkumo-sdk-header {
+    position: relative;
+    height: 30px;
+    line-height: 30px;
+    background: #6caee0;
+    color: white;
+    min-width: 100px;
+}
+
+.medkumo-sdk-header-close-button {
+    position: absolute;
+    right: 10px;
+}
+
+.medkumo-sdk-header-minimize-button, .medkumo-sdk-header-maximize-button {
+    position: absolute;
+    left: 10px;
+}
+
+.medkumo-sdk-header-maximize-button {
+    display: none;
+}
+
+.medkumo-sdk-header-button {
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    border-radius: 15px;
+    line-height: 25px;
+    margin-top: 2px;
+}
+
+.medkumo-sdk-header-button:hover {
+    background: #6ac2f9;
+}
+
+.medkumo-sdk-body-minimize>.medkumo-sdk-body {
+    display: none;
+}
+
+.medkumo-sdk-body {
+    padding: 10px;
+    background: white;
+    max-width: 800px;
+    max-height: 410px;
+    overflow-y: scroll;
+}
+
+#medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-user-detail {
+    float: right;
+    margin-top: 150px;
+    margin-right: 50px;
+    text-align: center;
+}
+
+#medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-list-of-doctor {
+    float: left;
+    text-align: center;
+    max-width: 527px;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+#medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-list-of-doctor .medkumo-sdk-item {
+    float: left;
+    margin: 5px;
+}
+
+#medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-list-of-doctor .medkumo-sdk-item .medkumo-sdk-book-an-appointment-button {
+    padding: 5px 15px;
+    webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-color: #6caee0;
+    background-image: -webkit-linear-gradient(top, #00bfff);
+    background-image: -moz-linear-gradient(top, #00bfff);
+    background-image: -ms-linear-gradient(top, #00bfff);
+    background-image: -o-linear-gradient(top, #00bfff);
+    background-image: linear-gradient(top, #00bfff);
+    border: 1px solid #3079ed;
+    color: #fff;
+    cursor: pointer;
+}
+
+#medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-book-an-appointment {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 20px 55px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    font: bold 14px sans-serif;
+    text-align: center;
+}
+
+#medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-book-an-appointment input {
+    color: #5f5f5f;
+    box-sizing: border-box;
+    width: 240px;
+    box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
+    padding: 12px;
+    border: 1px solid #dbdbdb;
+}
+
+#medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-book-an-appointment button {
+    /*display: block;*/
+    border-radius: 2px;
+    background-color: #6caee0;
+    color: #ffffff;
+    font-weight: bold;
+    box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
+    padding: 14px 22px;
+    border: 0;
+    cursor: pointer;
+    /*margin: 0 183px 0;*/
+}
+
+#medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-book-an-appointment .medkumo-sdk-form-row {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+#medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-book-an-appointment .medkumo-sdk-form-row .medkumo-sdk-form-row>label span {
+    display: inline-block;
+    box-sizing: border-box;
+    color: #5F5F5F;
+    width: 115px;
+    text-align: right;
+    vertical-align: top;
+    padding: 12px 25px;
+}
+
+#medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-book-an-appointment .medkumo-sdk-form-row .medkumo-sdk-form-row-age-input {
+    margin-left: 12px;
+}
+
+#medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-book-an-appointment .medkumo-sdk-form-row .medkumo-sdk-form-row-mobile-span {
+    margin-left: -6px;
+}
+
+#medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-book-an-appointment .medkumo-sdk-form-row .medkumo-sdk-form-row-email-input {
+    margin-left: 3px;
+}
+
+#medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-book-an-appointment .medkumo-sdk-form-row #medkumo-sdk-form-row-book-button {
+    margin-left: 183px;
+    margin-right: 25px;
+}
+
+#medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-book-an-appointment .medkumo-sdk-form-row #medkumo-sdk-form-row-back-button {
+    float: right;
+    margin-right: 153px;
+}
+
+#medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-clear {
+    clear: both;
+}
+
+
+/*	Making the form responsive. Remove this media query
+    if you don't need the form to work on mobile devices. */
+
+@media (max-width: 600px) {
+    .medkumo-sdk-book-an-appointment {
+        padding: 30px;
+        max-width: 480px;
+    }
+    .medkumo-sdk-book-an-appointment .medkumo-sdk-form-row {
+        max-width: 300px;
+        margin: 25px auto;
+        text-align: left;
+    }
+    .medkumo-sdk-book-an-appointment .medkumo-sdk-form-row #medkumo-sdk-form-row-back-button {
+        margin-left: 0;
+        float: right;
+        margin-right: 0;
+    }
+    .medkumo-sdk-book-an-appointment .medkumo-sdk-form-row #medkumo-sdk-form-row-book-button {
+        margin-left: 0;
+    }
+    .medkumo-sdk-book-an-appointment .medkumo-sdk-form-row button {
+        margin: 0;
+    }
+    .medkumo-sdk-book-an-appointment .medkumo-sdk-form-row .medkumo-sdk-form-row>label span {
+        display: block;
+        text-align: left;
+        padding: 0 0 15px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    #medkumo-sdk-container {
+        width: 100%;
+        /*overflow-y: scroll;*/
+    }
+    #medkumo-sdk-container .medkumo-sdk-user-detail {
+        float: none;
+        margin-top: 0;
+        text-align: center;
+    }
+    #medkumo-sdk-container #medkumo-sdk-form-row-back-button {
+        margin: 25px 67px;
+    }
+    #medkumo-sdk-container #medkumo-sdk-form-row-book-button {
+        margin-left: 0;
+    }
+    #medkumo-sdk-container .medkumo-sdk-book-an-appointment input {
+        width: 190px;
+    }
+    #medkumo-sdk-container .medkumo-sdk-list-of-doctor {
+        float: left;
+        text-align: center;
+        width: 100%;
+        margin: 5px;
+    }
+}
+
+
+/*# sourceMappingURL=style.css.map */
+
+
+/*# sourceMappingURL=style.css.map */
