@@ -4,7 +4,9 @@
     right: 0px;
     border: 1px solid #6caee0;
 }
-
+.input-error{
+  border: 1px solid red!important;
+}
 .medkumo-sdk-clear {
     clear: both;
 }
