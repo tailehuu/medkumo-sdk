@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>QUnit Example</title>
+    <title>Medkumo Testing</title>
     <link rel="stylesheet" href="http://sdk.medkumo.loc/test/lib/qunit-2.0.1.css">
 </head>
 
@@ -19,6 +19,9 @@
             var entry = document.getElementsByTagName('script')[0];
             entry.parentNode.insertBefore(script, entry);
         })();
+        window.Medkumo_ready = function() {
+            Medkumo.init('', 'test');
+        };
     </script>
     <script src="/test/js/doctor.js"></script>
     <script src="/test/js/appointment.js"></script>
