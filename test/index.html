@@ -1,0 +1,30 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Medkumo Testing</title>
+    <link rel="stylesheet" href="http://sdk.medkumo.loc/test/lib/qunit-2.0.1.css">
+</head>
+
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="http://sdk.medkumo.loc/test/lib/qunit-2.0.1.js"></script>
+    <script>
+        (function() {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'http://sdk.medkumo.loc/medkumo.js';
+            var entry = document.getElementsByTagName('script')[0];
+            entry.parentNode.insertBefore(script, entry);
+        })();
+        window.Medkumo_ready = function() {
+            Medkumo.init('', 'test');
+        };
+    </script>
+    <script src="/test/js/doctor.js"></script>
+    <script src="/test/js/appointment.js"></script>
+</body>
+
+</html>
