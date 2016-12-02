@@ -1,0 +1,11 @@
+[{
+    "id": 1,
+    "name": "Dr. Suresh",
+    "doctor_key": "ABC123456789",
+    "avatar": "http://sdk.medkumo.loc/user.png"
+}, {
+    "id": 2,
+    "name": "Dr. Vikar",
+    "doctor_key": "ABC123456CDE",
+    "avatar": "http://sdk.medkumo.loc/user.png"
+}]
