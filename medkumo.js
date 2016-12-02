@@ -62,42 +62,42 @@
         var tblForm = '';
         tblForm += '<span class="medkumo-sdk-message"></span>';
         tblForm += '<div class="medkumo-sdk-book-an-appointment">'
-        tblForm += '<div class="medkumo-sdk-form-row medkumo-sdk-item-center">';
-        tblForm += '<img src="' + doctor.doctor_avatar + '" />';
-        tblForm += '<h4 class="">' + doctor.name + '</h4>';
-        tblForm += '</div>';
-        tblForm += '<div id="medkumo-sdk-book-an-appointment-form" class="medkumo-sdk-book-an-appointment">';
-        tblForm += '<div class="medkumo-sdk-form-row">';
-        tblForm += '<label>';
-        tblForm += '<input name="patientName" type="text" placeholder="Patient Name">';
-        tblForm += '</label>';
-        tblForm += '</div>';
-        tblForm += '<div class="medkumo-sdk-form-row">';
-        tblForm += '<label>';
-        tblForm += '<input name="patientAge" class="medkumo-sdk-form-row-age-input" type="text" placeholder="Patient Age">';
-        tblForm += '</label>';
-        tblForm += '</div>';
-        tblForm += '<div class="medkumo-sdk-form-row">';
-        tblForm += '<label>';
-        tblForm += '<input name="patientMobile" type="text" placeholder="Mobile">';
-        tblForm += '</label>';
-        tblForm += '</div>';
-        tblForm += '<div class="medkumo-sdk-form-row">';
-        tblForm += '<label>';
-        tblForm += '<input name="patientMail" class="medkumo-sdk-form-row-email-input" type="text" placeholder="Email">';
-        tblForm += '</label>';
-        tblForm += '</div>';
-        tblForm += '<div class="medkumo-sdk-form-row">';
-        tblForm += '<label>';
-        tblForm += '<input name="appointmentDateAndTime" type="text" placeholder="Datetime">';
-        tblForm += '</label>';
-        tblForm += '</div>';
-        tblForm += '<div class="medkumo-sdk-form-row">';
-        tblForm += '<button type="submit" id="medkumo-sdk-form-row-book-button">Book</button>';
-        tblForm += '<button type="submit" id="medkumo-sdk-form-row-back-button">Back</button>';
-        tblForm += '</div>';
-        tblForm += '</div>';
-        tblForm += '<div class="medkumo-sdk-clear"></div>';
+        tblForm += '  <div class="medkumo-sdk-form-row medkumo-sdk-item-center">';
+        tblForm += '    <img src="' + doctor.doctor_avatar + '" />';
+        tblForm += '    <h4 class="">' + doctor.name + '</h4>';
+        tblForm += '  </div>';
+        tblForm += '  <div id="medkumo-sdk-book-an-appointment-form" class="medkumo-sdk-book-an-appointment">';
+        tblForm += '    <div class="medkumo-sdk-form-row">';
+        tblForm += '      <label>';
+        tblForm += '        <input name="patientName" type="text" placeholder="Patient Name">';
+        tblForm += '      </label>';
+        tblForm += '    </div>';
+        tblForm += '    <div class="medkumo-sdk-form-row">';
+        tblForm += '      <label>';
+        tblForm += '        <input name="patientAge" class="medkumo-sdk-form-row-age-input" type="text" placeholder="Patient Age">';
+        tblForm += '      </label>';
+        tblForm += '    </div>';
+        tblForm += '    <div class="medkumo-sdk-form-row">';
+        tblForm += '      <label>';
+        tblForm += '        <input name="patientMobile" type="text" placeholder="Mobile">';
+        tblForm += '      </label>';
+        tblForm += '    </div>';
+        tblForm += '    <div class="medkumo-sdk-form-row">';
+        tblForm += '      <label>';
+        tblForm += '        <input name="patientMail" class="medkumo-sdk-form-row-email-input" type="text" placeholder="Email">';
+        tblForm += '      </label>';
+        tblForm += '    </div>';
+        tblForm += '    <div class="medkumo-sdk-form-row">';
+        tblForm += '      <label>';
+        tblForm += '        <input name="appointmentDateAndTime" type="text" placeholder="Datetime">';
+        tblForm += '      </label>';
+        tblForm += '    </div>';
+        tblForm += '    <div class="medkumo-sdk-form-row">';
+        tblForm += '      <button type="submit" id="medkumo-sdk-form-row-book-button">Book</button>';
+        tblForm += '      <button type="submit" id="medkumo-sdk-form-row-back-button">Back</button>';
+        tblForm += '    </div>';
+        tblForm += '  </div>';
+        tblForm += '  <div class="medkumo-sdk-clear"></div>';
         tblForm += '</div>';
 
         //render
@@ -108,12 +108,10 @@
         bookAnAppointmentEvents();
     }
 
-    function renderMessage(isError, element, data) {
+    function renderMessage(isError, element = '.medkumo-sdk-body', data) {
         console.log('executing renderMessage...');
         console.log(data);
-        if (!element) {
-            element = '.medkumo-sdk-body';
-        }
+
         if (Medkumo.jQuery(element).length == 0) {
             Medkumo.jQuery("#medkumo-sdk-container").html(Config.layoutContent);
         }
