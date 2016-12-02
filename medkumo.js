@@ -4,25 +4,18 @@
  */
 (function(window, undefined) {
     var Medkumo = {},
-        hospitalKey = '';
+        Config = {};
 
     if (window.Medkumo) {
         return;
     }
-    const PORT = window.location.port;
-    const SDK_BASE_URL = 'sdk.medkumo.loc';
-
-    const API_BASE_URL = 'api.medkumo.loc';
-    const API_LIST_OF_DOCTOR = '//' + API_BASE_URL + ':' + PORT + '/index.php?name=list_doctor';
-    const API_BOOK_AN_APPOINTMENT = '//' + API_BASE_URL + ':' + PORT + '/index.php?name=book_appointment';
-
-    Medkumo.init = function(key) {
+    Medkumo.init = function(key, env = 'prod') {
         console.log('executing init...');
         console.log('hospitalKey: ' + key);
 
-        hospitalKey = key;
-        loadStylesheet('//' + SDK_BASE_URL + ':' + PORT + '/medkumo.css');
-        loadScript('//' + SDK_BASE_URL + ':' + PORT + '/lib/jquery-medkumo.js', renderContainer);
+        loadConfig(key, env);
+        loadStylesheet('//' + Config.sdkBaseUrl + ':' + Config.port + '/medkumo.css');
+        loadScript('//' + Config.sdkBaseUrl + ':' + Config.port + '/lib/jquery-medkumo.js', renderContainer);
     };
 
     // render functions
@@ -205,7 +198,7 @@
                 Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input').removeClass('input-error');
             }
             var jsonData = {
-                "hospital_access_key": hospitalKey,
+                "hospital_access_key": Config.hospitalKey,
                 "doctor_access_key": doctor_key,
                 "detail": {
                     "patient_name": patientName,
@@ -217,7 +210,7 @@
             };
             Medkumo.jQuery.ajax({
                 type: 'POST',
-                url: API_BOOK_AN_APPOINTMENT,
+                url: Config.apiBookAnAppointment,
                 data: JSON.stringify(jsonData),
                 success: function(data) {
                     console.log('data: ', data);
@@ -258,7 +251,7 @@
 
     function checkHospitalKey() {
         console.log('executing checkHospitalKey...');
-        console.log(hospitalKey);
+        console.log(Config.hospitalKey);
         return true;
     }
 
@@ -267,7 +260,7 @@
 
         if (checkHospitalKey()) {
             Medkumo.jQuery.ajax({
-                url: API_LIST_OF_DOCTOR,
+                url: Config.apiListOfDoctor,
                 type: "GET",
                 dataType: "json",
                 success: function(doctors) {
@@ -278,7 +271,7 @@
                 }
             });
         } else {
-            renderMessage(true, null, 'Hospital Key ' + hospitalKey + ' is not exist !');
+            renderMessage(true, null, 'Hospital Key ' + Config.hospitalKey + ' is not exist !');
         }
     }
 
@@ -312,6 +305,32 @@
         link.href = url;
         entry = document.getElementsByTagName('script')[0];
         entry.parentNode.insertBefore(link, entry);
+    }
+
+    function loadConfig(hospitalKey, env) {
+        var apiBaseUrl,
+            sdkBaseUrl = 'sdk.medkumo.loc',
+            port = window.location.port,
+            apiListOfDoctor,
+            apiBookAnAppointment;
+        if (env == 'prod') {
+            apiBaseUrl = 'api.medkumo.loc';
+            apiListOfDoctor = '//' + apiBaseUrl + ':' + port + '/index.php?name=list_doctor';
+            apiBookAnAppointment = '//' + apiBaseUrl + ':' + port + '/index.php?name=book_appointment';
+        } else {
+            apiBaseUrl = '';
+            apiListOfDoctor = '/test/json/list_doctor.json';
+            apiBookAnAppointment = '/test/json/book_appointment.json';
+        }
+
+        Config = {
+            apiBaseUrl: apiBaseUrl,
+            sdkBaseUrl: sdkBaseUrl,
+            port: port,
+            apiListOfDoctor: apiListOfDoctor,
+            apiBookAnAppointment: apiBookAnAppointment,
+            hospitalKey: hospitalKey
+        };
     }
 
     window.Medkumo = Medkumo;
