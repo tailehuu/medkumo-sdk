@@ -319,8 +319,8 @@
             apiBookAnAppointment = '//' + apiBaseUrl + ':' + port + '/index.php?name=book_appointment';
         } else {
             apiBaseUrl = '';
-            apiListOfDoctor = '/test/json/list_doctor.json';
-            apiBookAnAppointment = '/test/json/book_appointment.json';
+            apiListOfDoctor = '/test/data/list_doctor.json';
+            apiBookAnAppointment = '/test/data/book_appointment.json';
         }
 
         Config = {
