@@ -108,7 +108,7 @@
         bookAnAppointmentEvents();
     }
 
-    function renderMessage(isError, element = '.medkumo-sdk-body', data) {
+    function renderMessage(isError, data, element = '.medkumo-sdk-body') {
         console.log('executing renderMessage...');
         console.log(data);
 
@@ -175,7 +175,7 @@
                 doctor_name = Medkumo.jQuery(this).data('doctor-name'),
                 doctor_avatar = Medkumo.jQuery(this).data('doctor-avatar');
             if (validateBookAnAppointment() === false) {
-                renderMessage(true, '.medkumo-sdk-message', 'You must enter the valid data !');
+                renderMessage(true, 'You must enter the valid data !', '.medkumo-sdk-message');
                 return;
             } else {
                 Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input').removeClass('input-error');
@@ -198,15 +198,15 @@
                 success: function(data) {
                     console.log('data: ', data);
                     if (data && data.code === 1) {
-                        renderMessage(false, '.medkumo-sdk-message', data.message);
+                        renderMessage(false, data.message, '.medkumo-sdk-message');
                     } else {
-                        renderMessage(true, '.medkumo-sdk-message', data.message);
+                        renderMessage(true, data.message, '.medkumo-sdk-message');
                     }
 
                 },
                 error: function(data) {
                     console.log('data: ', data);
-                    renderMessage(true, '.medkumo-sdk-message', data);
+                    renderMessage(true, data, '.medkumo-sdk-message');
                 },
                 contentType: "application/json",
                 dataType: 'json'
@@ -250,11 +250,11 @@
                     renderListOfDoctor(doctors);
                 },
                 error: function(xhr, status, error) {
-                    renderMessage(true, null, "Can't get the list of doctor !");
+                    renderMessage(true, "Can't get the list of doctor !");
                 }
             });
         } else {
-            renderMessage(true, null, 'Hospital Key ' + Config.hospitalKey + ' is not exist !');
+            renderMessage(true, 'Hospital Key ' + Config.hospitalKey + ' is not exist !');
         }
     }
 
@@ -304,8 +304,8 @@
             apiBookAnAppointment = '//' + apiBaseUrl + ':' + port + '/index.php?name=book_appointment';
         } else {
             apiBaseUrl = '';
-            apiListOfDoctor = '/test/data/list_doctor.json';
-            apiBookAnAppointment = '/test/data/book_appointment.json';
+            apiListOfDoctor = '/test/data/doctor.json';
+            apiBookAnAppointment = '/test/data/appointment.json';
         }
 
         Config = {
