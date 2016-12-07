@@ -1,6 +1,3 @@
-body{
-  background: black;
-}
 .input-error {
     border: 1px solid red!important;
 }
@@ -12,12 +9,14 @@ body{
 .medkumo-sdk-success {
     color: green;
 }
-#medkumo-sdk-container .medkumo-sdk-button-booking{
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
+
+#medkumo-sdk-container .medkumo-sdk-button-booking {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
 }
-#medkumo-sdk-container .medkumo-sdk-book-an-appointment-button,#medkumo-sdk-container .medkumo-sdk-button-booking {
+
+#medkumo-sdk-container .medkumo-sdk-book-an-appointment-button, #medkumo-sdk-container .medkumo-sdk-button-booking {
     padding: 9px 5px;
     webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -61,7 +60,7 @@ body{
 }
 
 #medkumo-sdk-container .medkumo-sdk-body {
-    max-height: 410px;
+    height: 410px;
     width: 300px;
     padding: 5px;
     overflow-y: scroll;
@@ -103,7 +102,6 @@ body{
     color: #fff;
     font-size: 12px;
     border-radius: 2px;
-    cursor: pointer;
 }
 
 #medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-book-an-appointment {
@@ -132,7 +130,6 @@ body{
     color: #ffffff;
     padding: 9px 22px;
     border: 0;
-    cursor: pointer;
 }
 
 #medkumo-sdk-container .medkumo-sdk-body .medkumo-sdk-book-an-appointment .medkumo-sdk-form-row {
@@ -161,10 +158,51 @@ body{
     clear: both;
 }
 
-@media all and (max-width: 480px) {
+@media (min-width: 992px) and (max-width: 1199px) {
+    #medkumo-sdk-container .medkumo-sdk-item {
+        width: 50%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
     #medkumo-sdk-container {
         width: 100%;
-        border: none;
+    }
+    #medkumo-sdk-container .medkumo-sdk-body {
+        width: 99%;
+    }
+    #medkumo-sdk-container .medkumo-sdk-item {
+        width: 46%;
+    }
+}
+
+@media (max-width: 767px) {
+    #medkumo-sdk-container {
+        width: 100%;
+    }
+    #medkumo-sdk-container .medkumo-sdk-body {
+        width: 99%;
+    }
+    #medkumo-sdk-container .medkumo-sdk-item {
+        width: 46%;
+    }
+}
+
+@media (max-width: 639px) {
+    #medkumo-sdk-container {
+        width: 100%;
+    }
+    #medkumo-sdk-container .medkumo-sdk-body {
+        width: 99%;
+    }
+    #medkumo-sdk-container .medkumo-sdk-item {
+        width: 46%;
+    }
+}
+
+@media (max-width: 480px) {
+    #medkumo-sdk-container {
+        width: 100%;
     }
     #medkumo-sdk-container .medkumo-sdk-body {
         width: 98%;

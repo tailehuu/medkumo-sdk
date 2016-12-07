@@ -9,13 +9,23 @@
     if (window.Medkumo) {
         return;
     }
-    Medkumo.init = function(key, env = 'prod') {
+    Medkumo.showBookAnAppointment = function(hospitalKey, doctorKey, env) {
+        if (typeof(env) == 'undefined') {
+            env = 'prod';
+        }
         console.log('executing init...');
-        console.log('hospitalKey: ' + key);
 
-        loadConfig(key, env);
-        loadStylesheet('//' + Config.sdkBaseUrl + ':' + Config.port + '/medkumo.css');
-        loadScript('//' + Config.sdkBaseUrl + ':' + Config.port + '/lib/jquery-medkumo.js', renderContainer);
+        if (document.getElementById('medkumo-sdk-container') != null) {
+            document.getElementById('medkumo-sdk-container').style.display = 'block';
+            return;
+        }
+
+        loadConfig(hospitalKey, doctorKey, env);
+        loadStylesheet('//' + Config.sdkBaseUrl + ':' + Config.port + '/css/medkumo.css');
+        loadStylesheet('//' + Config.sdkBaseUrl + ':' + Config.port + '/css/medkumo.datetimepicker.css');
+        loadScript('//' + Config.sdkBaseUrl + ':' + Config.port + '/lib/jquery-medkumo.js', function() {
+            loadScript('//' + Config.sdkBaseUrl + ':' + Config.port + '/lib/medkumo.datetimepicker.full.js', renderBookAnAppointment)
+        });
     };
 
     // render functions
@@ -23,48 +33,31 @@
         console.log('executing renderContainer...');
 
         var medkumoSdkContainer = '';
-        medkumoSdkContainer += '<div id="medkumo-sdk-container" class=""></div>';
+        medkumoSdkContainer += '<div id="medkumo-sdk-container">';
+        medkumoSdkContainer += ' <div class="medkumo-sdk-header">'
+        medkumoSdkContainer += '  <a class="medkumo-sdk-close-button" title="Close">x</a>';
+        medkumoSdkContainer += ' </div>';
+        medkumoSdkContainer += ' <div class="medkumo-sdk-body"></div>';
+        medkumoSdkContainer += '</div>';
 
         // render
         Medkumo.jQuery("body").append(medkumoSdkContainer);
-        Medkumo.jQuery("#medkumo-sdk-container").html(Config.btnBooking);
+        //centerDiv('#medkumo-sdk-container');
 
         // event handlers
         containerEvents();
     }
 
-    function renderListOfDoctor(doctors) {
-        console.log('executing renderListOfDoctor...');
 
-        var doc = '';
-        doctors.map(function(doctor, index) {
-            doc += '<div class="medkumo-sdk-item">';
-            doc += ' <img src=' + doctor.avatar + ' width="15%;">';
-            doc += ' <br>'
-            doc += ' <label>' + doctor.name + '</label>';
-            doc += ' <br>';
-            doc += ' <button data-doctor-key="' + doctor.doctor_key + '"  data-doctor-name="' + doctor.name + '"  data-doctor-avatar="' + doctor.avatar + '" class="medkumo-sdk-book-an-appointment-button">Book An Appointment</button>';
-            doc += '</div>';
-        })
-
-        // render
-        Medkumo.jQuery("#medkumo-sdk-container").html(Config.layoutContent);
-        Medkumo.jQuery(".medkumo-sdk-body").html('<div class="medkumo-sdk-list-of-doctor"></div>');
-        Medkumo.jQuery('.medkumo-sdk-list-of-doctor').append(doc);
-        Medkumo.jQuery('.medkumo-sdk-list-of-doctor').append('<div class="medkumo-sdk-clear"></div>');
-
-        // event handlers
-        listOfDoctorEvents();
-    }
-
-    function renderBookAnAppointment(doctor) {
+    function renderBookAnAppointment() {
+        renderContainer();
         console.log('executing renderBookAnAppointment...');
         var tblForm = '';
         tblForm += '<span class="medkumo-sdk-message"></span>';
         tblForm += '<div class="medkumo-sdk-book-an-appointment">'
         tblForm += '  <div class="medkumo-sdk-form-row medkumo-sdk-item-center">';
-        tblForm += '    <img src="' + doctor.doctor_avatar + '" />';
-        tblForm += '    <h4 class="">' + doctor.name + '</h4>';
+        tblForm += '    <img src="http://sdk.medkumo.loc:85/user.png" />';
+        tblForm += '    <h4 class="">Dr Name</h4>';
         tblForm += '  </div>';
         tblForm += '  <div id="medkumo-sdk-book-an-appointment-form" class="medkumo-sdk-book-an-appointment">';
         tblForm += '    <div class="medkumo-sdk-form-row">';
@@ -89,42 +82,41 @@
         tblForm += '    </div>';
         tblForm += '    <div class="medkumo-sdk-form-row">';
         tblForm += '      <label>';
-        tblForm += '        <input name="appointmentDateAndTime" type="text" placeholder="Datetime">';
+        tblForm += '        <input name="appointmentDateAndTime" class="medkumo_datetime_picker" type="text" placeholder="Datetime">';
         tblForm += '      </label>';
         tblForm += '    </div>';
         tblForm += '    <div class="medkumo-sdk-form-row">';
         tblForm += '      <button type="submit" id="medkumo-sdk-form-row-book-button">Book</button>';
-        tblForm += '      <button type="submit" id="medkumo-sdk-form-row-back-button">Back</button>';
         tblForm += '    </div>';
         tblForm += '  </div>';
         tblForm += '  <div class="medkumo-sdk-clear"></div>';
         tblForm += '</div>';
 
         //render
-        Medkumo.jQuery("#medkumo-sdk-container").html(Config.layoutContent);
         Medkumo.jQuery(".medkumo-sdk-body").html(tblForm);
 
         //event
         bookAnAppointmentEvents();
     }
 
-    function renderMessage(isError, data, element = '.medkumo-sdk-body') {
-        console.log('executing renderMessage...');
-        console.log(data);
-
-        if (Medkumo.jQuery(element).length == 0) {
-            Medkumo.jQuery("#medkumo-sdk-container").html(Config.layoutContent);
-        }
-        if (isError) {
+    var renderMessage = {
+        error: function(data, element) {
+            if (typeof(element) == 'undefined') {
+                element = '.medkumo-sdk-body';
+            }
             Medkumo.jQuery(element).removeClass('medkumo-sdk-success');
             Medkumo.jQuery(element).addClass('medkumo-sdk-error');
-        } else {
+            Medkumo.jQuery(element).html(data);
+        },
+        success: function(data, element) {
+            if (typeof(element) == 'undefined') {
+                element = '.medkumo-sdk-body';
+            }
             Medkumo.jQuery(element).removeClass('medkumo-sdk-error');
             Medkumo.jQuery(element).addClass('medkumo-sdk-success');
+            Medkumo.jQuery(element).html(data);
         }
-        Medkumo.jQuery(element).html(data);
-    }
-
+    };
     // validation functions
     function isValidEmailAddress(emailAddress) {
         var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
@@ -156,111 +148,126 @@
     // event functions
     function containerEvents() {
         Medkumo.jQuery(document).on('click', '.medkumo-sdk-close-button', function() {
-            Medkumo.jQuery(this).parents('#medkumo-sdk-container').html(Config.btnBooking);
+            Medkumo.jQuery(this).parents('#medkumo-sdk-container').hide();
         });
         Medkumo.jQuery(document).on('click', '.medkumo-sdk-button-booking', function() {
-            getListOfDoctor();
+            checkHospitalKey();
         });
+        // Medkumo.jQuery(window).resize(function() {
+        //     centerDiv('#medkumo-sdk-container');
+        // });
+
     }
 
     function bookAnAppointmentEvents() {
+        Medkumo.jQuery('.medkumo_datetime_picker').datetimepicker({
+            minDate: 0, // today
+            disabledDates: ['10.12.2016', '11.12.2016', '13.12.2016'],
+            formatDate: 'd.m.Y',
+            allowTimes: [
+                '00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00',
+                '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'
+            ]
+        });
         Medkumo.jQuery(document).on("click", "#medkumo-sdk-form-row-book-button", function() {
             var patientName = Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input[name="patientName"]').val(),
                 patientAge = Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input[name="patientAge"]').val(),
                 patientMobile = Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input[name="patientMobile"]').val(),
                 patientMail = Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input[name="patientMail"]').val(),
-                appointmentDateAndTime = Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input[name="appointmentDateAndTime"]').val();
+                appointmentDateAndTime = Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input[name="appointmentDateAndTime"]').val(),
+                appointmentDate = "",
+                appointmentTime = "";
 
-            var doctor_key = Medkumo.jQuery(this).data('doctor-key'),
-                doctor_name = Medkumo.jQuery(this).data('doctor-name'),
-                doctor_avatar = Medkumo.jQuery(this).data('doctor-avatar');
             if (validateBookAnAppointment() === false) {
-                renderMessage(true, 'You must enter the valid data !', '.medkumo-sdk-message');
+                renderMessage.error('You must enter the valid data !', '.medkumo-sdk-message');
                 return;
             } else {
                 Medkumo.jQuery('#medkumo-sdk-book-an-appointment-form input').removeClass('input-error');
             }
+            if (appointmentDateAndTime.split(' ').length > 1) {
+                appointmentDate = appointmentDateAndTime.split(' ')[0];
+                appointmentTime = appointmentDateAndTime.split(' ')[1];
+            }
+
             var jsonData = {
-                "hospital_access_key": Config.hospitalKey,
-                "doctor_access_key": doctor_key,
-                "detail": {
-                    "patient_name": patientName,
-                    "patient_age": patientAge,
-                    "mobile_number": patientMobile,
-                    "email_id": patientMail,
-                    "appointment_date": appointmentDateAndTime
-                }
+                "hospital_key": "8cfc7a0b788a513756f58fae3f3d1612c8cd381b",
+                "doctor_key": "142a3713c6a14e61466aa6a8d4621c66abbc6a7a",
+                "appointment_date": appointmentDate,
+                "appointment_time": appointmentTime,
+                "patient_id": "",
+                "name": patientName,
+                "age": patientAge,
+                "gender": "1",
+                "dob": "30/07/1984",
+                "mobile_number": patientMobile,
+                "email": patientMail
             };
+            console.log('jsonData: ', jsonData);
             Medkumo.jQuery.ajax({
                 type: 'POST',
                 url: Config.apiBookAnAppointment,
                 data: JSON.stringify(jsonData),
                 success: function(data) {
                     console.log('data: ', data);
-                    if (data && data.code === 1) {
-                        renderMessage(false, data.message, '.medkumo-sdk-message');
+                    if (data && data.code === "1") {
+                        renderMessage.success(data.data, '.medkumo-sdk-message');
                     } else {
-                        renderMessage(true, data.message, '.medkumo-sdk-message');
+                        renderMessage.error(data.data, '.medkumo-sdk-message');
                     }
 
                 },
                 error: function(data) {
                     console.log('data: ', data);
-                    renderMessage(true, data, '.medkumo-sdk-message');
+                    renderMessage.error(data, '.medkumo-sdk-message');
                 },
-                contentType: "application/json",
+                contentType: "application/x-www-form-urlencoded",
                 dataType: 'json'
             });
         });
-
-        Medkumo.jQuery(document).on("click", "#medkumo-sdk-form-row-back-button", function() {
-            getListOfDoctor();
-        });
     }
 
-    function listOfDoctorEvents() {
-        Medkumo.jQuery(document).on("click", ".medkumo-sdk-book-an-appointment-button", function() {
-            var doctor_key = Medkumo.jQuery(this).data('doctor-key'),
-                doctor_name = Medkumo.jQuery(this).data('doctor-name'),
-                doctor_avatar = Medkumo.jQuery(this).data('doctor-avatar');
-
-            renderBookAnAppointment({
-                "doctor_key": doctor_key,
-                "name": doctor_name,
-                "doctor_avatar": doctor_avatar
-            });
-        });
-    }
-
-    function checkHospitalKey() {
+    function checkHospitalKey(hospitalKey, doctorKey) {
         console.log('executing checkHospitalKey...');
         console.log(Config.hospitalKey);
-        return true;
-    }
-
-    function getListOfDoctor() {
-        console.log('executing getListOfDoctor...');
-
-        if (checkHospitalKey()) {
-            Medkumo.jQuery.ajax({
-                url: Config.apiListOfDoctor,
-                type: "GET",
-                dataType: "json",
-                success: function(doctors) {
-                    renderListOfDoctor(doctors);
-                },
-                error: function(xhr, status, error) {
-                    renderMessage(true, "Can't get the list of doctor !");
+        var jsonData = {
+            "hospital_key": "8cfc7a0b788a513756f58fae3f3d1612c8cd381b",
+            "doctor_key": "142a3713c6a14e61466aa6a8d4621c66abbc6a7a"
+        };
+        Medkumo.jQuery.ajax({
+            type: 'POST',
+            url: Config.apiCheckHospitalAndDoctorDetails,
+            data: JSON.stringify(jsonData),
+            success: function(data) {
+                console.log('data: ', data);
+                if (data.code === '1') {
+                    renderBookAnAppointment();
+                } else {
+                    alert(data.message);
                 }
-            });
-        } else {
-            renderMessage(true, 'Hospital Key ' + Config.hospitalKey + ' is not exist !');
-        }
+            },
+            error: function(data) {
+                console.log('data: ', data);
+            },
+            contentType: "application/x-www-form-urlencoded",
+            dataType: 'json'
+        });
     }
 
     function postAnAppointment(data) {
         console.log('executing postAnAppointment...');
         console.log(data);
+    }
+
+    function centerDiv(obj) {
+        Medkumo.jQuery(obj).css({
+            "position": "absolute",
+            "right": "auto",
+            "bottom": "auto"
+        });
+        Medkumo.jQuery(obj).css("top", Math.max(0, ((Medkumo.jQuery(window).height() - Medkumo.jQuery(obj).outerHeight()) / 2) +
+            Medkumo.jQuery(window).scrollTop()) + "px");
+        Medkumo.jQuery(obj).css("left", Math.max(0, ((Medkumo.jQuery(window).width() - Medkumo.jQuery(obj).outerWidth()) / 2) +
+            Medkumo.jQuery(window).scrollLeft()) + "px");
     }
 
     function loadScript(src, callback) {
@@ -290,40 +297,28 @@
         entry.parentNode.insertBefore(link, entry);
     }
 
-    function loadConfig(hospitalKey, env) {
-        var apiBaseUrl,
-            sdkBaseUrl = 'sdk.medkumo.loc',
+    function loadConfig(hospitalKey, doctorKey, env) {
+        var sdkBaseUrl = 'sdk.medkumo.loc',
             port = window.location.port,
-            apiListOfDoctor,
-            apiBookAnAppointment,
-            layoutContent = ' <div class="medkumo-sdk-header"><a class="medkumo-sdk-close-button" title="Close">x</a></div><div class="medkumo-sdk-body"></div>',
-            btnBooking = '<button  class="medkumo-sdk-button-booking">Booking</button>';
+            apiCheckHospitalAndDoctorDetails,
+            apiBookAnAppointment;
         if (env == 'prod') {
-            apiBaseUrl = 'api.medkumo.loc';
-            apiListOfDoctor = '//' + apiBaseUrl + ':' + port + '/index.php?name=list_doctor';
-            apiBookAnAppointment = '//' + apiBaseUrl + ':' + port + '/index.php?name=book_appointment';
+            apiCheckHospitalAndDoctorDetails = 'http://54.169.72.195/WebAppAPI/doctorApp.php/api/v1/doctor/checkHospitalAndDoctorDetails';
+            apiBookAnAppointment = 'http://54.169.72.195/WebAppAPI/doctorApp.php/api/v1/doctor/bookAppointmnet';
         } else {
-            apiBaseUrl = '';
-            apiListOfDoctor = '/test/data/doctor.json';
+            apiCheckHospitalAndDoctorDetails = '/test/data/checkHospitalAndDoctorDetails.json';
             apiBookAnAppointment = '/test/data/appointment.json';
         }
 
         Config = {
-            apiBaseUrl: apiBaseUrl,
             sdkBaseUrl: sdkBaseUrl,
             port: port,
-            apiListOfDoctor: apiListOfDoctor,
+            apiCheckHospitalAndDoctorDetails: apiCheckHospitalAndDoctorDetails,
             apiBookAnAppointment: apiBookAnAppointment,
             hospitalKey: hospitalKey,
-            layoutContent: layoutContent,
-            btnBooking: btnBooking
+            doctorKey: doctorKey
         };
     }
 
     window.Medkumo = Medkumo;
 })(this);
-
-if (typeof window.Medkumo_ready === 'function') {
-    window.Medkumo_ready();
-    delete window.Medkumo_ready;
-}
