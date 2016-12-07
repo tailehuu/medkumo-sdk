@@ -11,19 +11,13 @@
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
     <script src="http://sdk.medkumo.loc/test/lib/qunit-2.0.1.js"></script>
+    <script src='//sdk.medkumo.loc/medkumo.js'></script>
+    <button id='bttShow' onclick="Medkumo.showBookAnAppointment('8cfc7a0b788a513756f58fae3f3d1612c8cd381b', '142a3713c6a14e61466aa6a8d4621c66abbc6a7a', 'test')">Booking</button>
     <script>
-        (function() {
-            var script = document.createElement('script');
-            script.async = true;
-            script.src = 'http://sdk.medkumo.loc/medkumo.js';
-            var entry = document.getElementsByTagName('script')[0];
-            entry.parentNode.insertBefore(script, entry);
-        })();
-        window.Medkumo_ready = function() {
-            Medkumo.init('', 'test');
-        };
+        document.getElementById('bttShow').style.display = 'none';
+        document.getElementById('bttShow').click();
     </script>
-    <script src="/test/js/doctor.js"></script>
+    <script src="/test/js/container.js"></script>
     <script src="/test/js/appointment.js"></script>
 </body>
 

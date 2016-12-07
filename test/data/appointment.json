@@ -1,4 +1,5 @@
 {
-    "code": 1,
-    "message": "Your appointment with <doctor name> has booked successfully."
+    "code": "1",
+    "data": "Appointment Booked successfully",
+    "appointment_id": 134
 }
