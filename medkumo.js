@@ -42,6 +42,8 @@
 
         // render
         Medkumo.jQuery("body").append(medkumoSdkContainer);
+        //centerDiv('#medkumo-sdk-container');
+
         // event handlers
         containerEvents();
     }
@@ -151,6 +153,10 @@
         Medkumo.jQuery(document).on('click', '.medkumo-sdk-button-booking', function() {
             checkHospitalKey();
         });
+        // Medkumo.jQuery(window).resize(function() {
+        //     centerDiv('#medkumo-sdk-container');
+        // });
+
     }
 
     function bookAnAppointmentEvents() {
@@ -250,6 +256,18 @@
     function postAnAppointment(data) {
         console.log('executing postAnAppointment...');
         console.log(data);
+    }
+
+    function centerDiv(obj) {
+        Medkumo.jQuery(obj).css({
+            "position": "absolute",
+            "right": "auto",
+            "bottom": "auto"
+        });
+        Medkumo.jQuery(obj).css("top", Math.max(0, ((Medkumo.jQuery(window).height() - Medkumo.jQuery(obj).outerHeight()) / 2) +
+            Medkumo.jQuery(window).scrollTop()) + "px");
+        Medkumo.jQuery(obj).css("left", Math.max(0, ((Medkumo.jQuery(window).width() - Medkumo.jQuery(obj).outerWidth()) / 2) +
+            Medkumo.jQuery(window).scrollLeft()) + "px");
     }
 
     function loadScript(src, callback) {

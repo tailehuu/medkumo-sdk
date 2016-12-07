@@ -2,16 +2,11 @@ You must insert the source code below at the bottom of the body tag to render th
 
 ```html
 <script src='//sdk.medkumo.loc:85/medkumo.js'></script>
-<script>
-  function myFunction() {
-    Medkumo.showBookAnAppointment('<hospital_key>', '<doctor_key>')
-  }
-</script>
 ```
 After that you can be bind click event to the function.
 Example:
 ```html
-<button onclick="myFunction()">Booking</button>
+<button onclick="Medkumo.showBookAnAppointment('<hospital_key>', '<doctor_key>')">Booking</button>
 ```
 # Note
 
