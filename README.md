@@ -1,18 +1,19 @@
-You must insert the source code below at the bottom of the body tag to render the Medkudo Book An Appointment.
+# Medkumo Javascript SDK
+
+Using this a SDK to book an appointment in Medkumo website.
+
+### Javascript snippet
+You should insert this snippet at the beginning of <body> tag.
 ```html
-<script>
-	(function(){
-		var script = document.createElement('script');
-		script.async = true;
-		script.src = 'http://sdk.medkumo.loc:85/medkumo.js';
-		var entry = document.getElementsByTagName('script')[0];
-		entry.parentNode.insertBefore(script, entry);
-	})();
-	window.Medkumo_ready=function(){
-		Medkumo.initial('hospital_key');
-	};	
-</script>
+<body>
+    <script src="//sdk.medkumo.com/medkumo.js"></script>
+    ...
+</body>
 ```
 
-## Note
-- script.src: is the source file public of medkumo.js, ex: http://sdk.medkumo.loc:85/medkumo.js
+### Create a button to book an appointment
+```html
+<button onclick="Medkumo.book('your hospital key', 'your doctor key')">Booking An Appointment</button>
+```
+
+You can see full example in this file example-publisher.html.
